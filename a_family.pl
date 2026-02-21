@@ -13,20 +13,26 @@ male(bob).
 male(jim).
 male(tom).
 
-offspring(X, Y) :- parent(Y, X).
+offspring(Y, X) :-
+  parent(X, Y).
 
 mother(X, Y) :-
   parent(X, Y),
   female(X).
 
-grandparent(X, Z) :-
-  parent(X, Y),
-  parent(Y, Z).
+grandparent(X, Y) :-
+  parent(X, X2),
+  parent(X2, Y).
 
-% To enable dif[ference] facility:
-% :- use_module(library(dif)).
-sister(Y1, Y2) :-
-  parent(X, Y1),
-  parent(X, Y2),
-  female(Y1),
-  dif(Y1, Y2).
+sister(X, Y) :-
+  parent(Z, X),
+  parent(Z, Y),
+  female(X),
+  dif(X, Y).
+
+% This is a RECURSION:
+predecessor(X, Z) :-
+  parent(X, Z).
+predecessor(X, Z) :-
+  parent(X, Y),
+  predecessor(Y, Z).
